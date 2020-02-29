@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'groovy'
+	id 'java-library'
 }
 
 group = 'com.cheroliv'
@@ -16,6 +17,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	compile.exclude module: "spring-boot-starter-tomcat"
 }
 
 repositories {
@@ -23,15 +25,47 @@ repositories {
 }
 
 dependencies {
+
+
+	// SPRING STARTING POINT RESOURCES
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//UNDERTOW APP SERV
+	implementation "org.springframework.boot:spring-boot-starter-undertow"
+
+	// DATABASE ORM
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.hibernate:hibernate-envers'
+	// BEAN VALIDATION
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	//CACHE
+//	implementation 'org.springframework.boot:spring-boot-starter-cache'
+//	implementation "javax.cache:cache-api:1.1.0"
+//	implementation "org.ehcache:ehcache:3.7.1"
+//	implementation "org.hibernate:hibernate-jcache"
+	//JSON HELPER
+	implementation "io.jsonwebtoken:jjwt-api:$json_web_token_version"
+	runtimeOnly "io.jsonwebtoken:jjwt-impl:$json_web_token_version"
+	runtimeOnly "io.jsonwebtoken:jjwt-jackson:$json_web_token_version"
+	// XML/JSON PARSER
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+	//CACHE
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation "javax.cache:cache-api:1.1.0"
+	implementation "org.ehcache:ehcache:3.7.1"
+	implementation "org.hibernate:hibernate-jcache"
+
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.codehaus.groovy:groovy'
+	implementation "org.codehaus.groovy:groovy-json:$groovy_version"
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	testImplementation 'org.mockito:mockito-core:3.3.0'
+	testImplementation 'org.mockito:mockito-junit-jupiter:3.3.0'
 }
 
 test {
