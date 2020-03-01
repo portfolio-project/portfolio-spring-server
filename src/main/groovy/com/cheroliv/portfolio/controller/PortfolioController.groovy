@@ -18,8 +18,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
         produces = [APPLICATION_JSON_VALUE])
 class PortfolioController {
     public static final String PORTFOLIO_BASE_URL_REST_API = '/api/portfolios'
-    public static final String JSON_EMPTY_RESULT = "[]"
-    public static final List<Portfolio> EMPTY_PORTFOLIOS = []
+
+
 
     final PortfolioService portfolioService
 

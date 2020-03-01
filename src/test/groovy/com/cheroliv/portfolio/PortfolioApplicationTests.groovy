@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class PortfolioApplicationTests {
 
     @Test
+    @DisplayName('today I shot the canary!')
     void contextLoads() {
         log.info('hi canary!!!!')
     }

@@ -1,21 +1,18 @@
 package com.cheroliv.portfolio.entity
 
+
 import com.cheroliv.portfolio.domain.Portfolio
 import groovy.transform.ToString
 import groovy.transform.TypeChecked
 import org.hibernate.annotations.DynamicUpdate
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Index
-import javax.persistence.SequenceGenerator
-import javax.persistence.Table
+import javax.persistence.*
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
+import static com.cheroliv.portfolio.config.ApplicationConstants.ND_NOTNULL_CSTRT_TPL_MSG
+import static com.cheroliv.portfolio.config.ApplicationConstants.ND_SIZE_CSTRT_TPL_MSG
 import static javax.persistence.GenerationType.SEQUENCE
-
 
 @Entity
 @ToString
@@ -30,9 +27,12 @@ class PortfolioEntity implements PortfolioEntityGeneric<Long> {
     @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "`id`")
     Long id
-    @Size(max = 255)
+
+    @Size(min = 1, max = 255,
+            message = ND_SIZE_CSTRT_TPL_MSG)
     @Column(name = "`name`",
             length = 255)
+    @NotNull(message = ND_NOTNULL_CSTRT_TPL_MSG)
     String name
 
 
@@ -46,5 +46,24 @@ class PortfolioEntity implements PortfolioEntityGeneric<Long> {
 
     static Portfolio fromEntity(PortfolioEntity p) {
         new Portfolio(id: p.id, name: p.name)
+    }
+
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (!(o instanceof PortfolioEntity)) return false
+
+        PortfolioEntity that = (PortfolioEntity) o
+
+        if (id != that.id) return false
+        if (name != that.name) return false
+
+        return true
+    }
+
+    int hashCode() {
+        int result
+        result = (id != null ? id.hashCode() : 0)
+        result = 31 * result + (name != null ? name.hashCode() : 0)
+        return result
     }
 }
