@@ -15,7 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 
-import static com.cheroliv.portfolio.TestData.*
+import static com.cheroliv.portfolio.config.DevData.*
 import static com.cheroliv.portfolio.controller.PortfolioController.PORTFOLIO_BASE_URL_REST_API
 import static org.mockito.BDDMockito.given
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get

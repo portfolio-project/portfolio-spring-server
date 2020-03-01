@@ -6,6 +6,6 @@ import groovy.transform.ToString
 @ToString
 @CompileStatic
 class Portfolio {
-    Long id
+    UUID id
     String name
 }

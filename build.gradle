@@ -25,8 +25,6 @@ repositories {
 }
 
 dependencies {
-
-
 	// SPRING STARTING POINT RESOURCES
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	//UNDERTOW APP SERV
@@ -38,10 +36,10 @@ dependencies {
 	// BEAN VALIDATION
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	//CACHE
-//	implementation 'org.springframework.boot:spring-boot-starter-cache'
-//	implementation "javax.cache:cache-api:1.1.0"
-//	implementation "org.ehcache:ehcache:3.7.1"
-//	implementation "org.hibernate:hibernate-jcache"
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation "javax.cache:cache-api:1.1.1"
+	implementation "org.ehcache:ehcache:3.8.1"
+	implementation "org.hibernate:hibernate-jcache"
 	//JSON HELPER
 	implementation "io.jsonwebtoken:jjwt-api:$json_web_token_version"
 	runtimeOnly "io.jsonwebtoken:jjwt-impl:$json_web_token_version"
@@ -56,7 +54,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.codehaus.groovy:groovy'
-	implementation "org.codehaus.groovy:groovy-json:$groovy_version"
+	implementation "org.codehaus.groovy:groovy-json"
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
@@ -70,4 +68,9 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+bootRun {
+	String activeProfile =  System.properties['spring.profiles.active']
+	systemProperty "spring.profiles.active", activeProfile
 }

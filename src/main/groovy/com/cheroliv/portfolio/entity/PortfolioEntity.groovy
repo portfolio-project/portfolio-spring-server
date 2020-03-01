@@ -1,10 +1,10 @@
 package com.cheroliv.portfolio.entity
 
-
 import com.cheroliv.portfolio.domain.Portfolio
 import groovy.transform.ToString
 import groovy.transform.TypeChecked
 import org.hibernate.annotations.DynamicUpdate
+import org.hibernate.annotations.GenericGenerator
 
 import javax.persistence.*
 import javax.validation.constraints.NotNull
@@ -12,7 +12,6 @@ import javax.validation.constraints.Size
 
 import static com.cheroliv.portfolio.config.ApplicationConstants.ND_NOTNULL_CSTRT_TPL_MSG
 import static com.cheroliv.portfolio.config.ApplicationConstants.ND_SIZE_CSTRT_TPL_MSG
-import static javax.persistence.GenerationType.SEQUENCE
 
 @Entity
 @ToString
@@ -20,13 +19,16 @@ import static javax.persistence.GenerationType.SEQUENCE
 @DynamicUpdate
 @Table(name = "`portfolio`", indexes = [
         @Index(name = "`idx_portfolio_name`", columnList = "`name`")])
-class PortfolioEntity implements PortfolioEntityGeneric<Long> {
+class PortfolioEntity implements PortfolioEntityGeneric<UUID> {
     @Id
-    @GeneratedValue(strategy = SEQUENCE,
-            generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "`id`")
-    Long id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "`id`",
+            updatable = false,
+            nullable = false)
+    UUID id
 
     @Size(min = 1, max = 255,
             message = ND_SIZE_CSTRT_TPL_MSG)

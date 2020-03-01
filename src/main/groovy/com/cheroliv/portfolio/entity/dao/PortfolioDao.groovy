@@ -5,5 +5,5 @@ import groovy.transform.TypeChecked
 import org.springframework.data.repository.PagingAndSortingRepository
 
 @TypeChecked
-interface PortfolioDao extends PagingAndSortingRepository<PortfolioEntity, Long> {
+interface PortfolioDao extends PagingAndSortingRepository<PortfolioEntity, UUID> {
 }
