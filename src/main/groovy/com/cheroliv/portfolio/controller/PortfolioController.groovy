@@ -1,6 +1,6 @@
 package com.cheroliv.portfolio.controller
 
-
+import com.cheroliv.portfolio.config.ApplicationConstants
 import com.cheroliv.portfolio.domain.Portfolio
 import com.cheroliv.portfolio.service.PortfolioService
 import groovy.transform.TypeChecked
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+import static com.cheroliv.portfolio.config.ApplicationConstants.PORTFOLIO_BASE_URL_REST_API
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 
 @Slf4j
@@ -17,7 +18,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 @RequestMapping(value = PORTFOLIO_BASE_URL_REST_API,
         produces = [APPLICATION_JSON_VALUE])
 class PortfolioController {
-    public static final String PORTFOLIO_BASE_URL_REST_API = '/api/portfolios'
 
 
 

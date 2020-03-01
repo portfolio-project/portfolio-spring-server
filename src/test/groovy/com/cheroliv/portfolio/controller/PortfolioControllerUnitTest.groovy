@@ -15,8 +15,10 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 
+import static com.cheroliv.portfolio.config.ApplicationConstants.PORTFOLIO_BASE_URL_REST_API
 import static com.cheroliv.portfolio.config.DevData.*
-import static com.cheroliv.portfolio.controller.PortfolioController.PORTFOLIO_BASE_URL_REST_API
+import static org.hamcrest.Matchers.is
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize
 import static org.mockito.BDDMockito.given
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -66,16 +68,23 @@ class PortfolioControllerUnitTest {
     @DisplayName("test_get_portfolios_with_datas")
     void test_get_portfolios_with_datas() {
 
-        List<Portfolio> expectedDatas = collectionToPortfolios(PORTFOLIO_DATA)
+        List<Portfolio> expectedDatas = collectionToPortfolios(PORTFOLIO_DATA).reverse()
 
         given(portfolioService.getAll())
                 .willReturn(expectedDatas)
-log.info("portfolioService.getAll() : "+portfolioService.getAll().toListString())
+
         mockMvc.perform(
                 get(PORTFOLIO_BASE_URL_REST_API))
                 .andExpect(status().isOk())
-//                .andExpect(jsonPath("id").value(expectedDatas.first().id))
-//                .andExpect(jsonPath("name").value(expectedDatas.first().name))
+                .andExpect(jsonPath('$', hasSize(3)))
+                .andExpect(jsonPath('$[0]id',
+                        is(expectedDatas.first().id.toString())))
+                .andExpect(jsonPath('$[0]name',
+                        is(expectedDatas.first().name)))
+                .andExpect(jsonPath('$[0]createdAt',
+                        is(expectedDatas.first().createdAt.toString())))
+                .andExpect(jsonPath('$[0]updatedAt',
+                        is(expectedDatas.first().updatedAt.toString())))
                 .andReturn()
     }
 
