@@ -1,6 +1,6 @@
 package com.cheroliv.portfolio.controller
 
-
+import com.cheroliv.portfolio.domain.Portfolio
 import com.cheroliv.portfolio.service.PortfolioService
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
@@ -19,6 +19,7 @@ import static com.cheroliv.portfolio.config.DevData.*
 import static com.cheroliv.portfolio.controller.PortfolioController.PORTFOLIO_BASE_URL_REST_API
 import static org.mockito.BDDMockito.given
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @Slf4j
@@ -65,12 +66,16 @@ class PortfolioControllerUnitTest {
     @DisplayName("test_get_portfolios_with_datas")
     void test_get_portfolios_with_datas() {
 
-        given(portfolioService.getAll())
-                .willReturn(collectionToPortfolios(PORTFOLIO_DATA))
+        List<Portfolio> expectedDatas = collectionToPortfolios(PORTFOLIO_DATA)
 
+        given(portfolioService.getAll())
+                .willReturn(expectedDatas)
+log.info("portfolioService.getAll() : "+portfolioService.getAll().toListString())
         mockMvc.perform(
                 get(PORTFOLIO_BASE_URL_REST_API))
                 .andExpect(status().isOk())
+//                .andExpect(jsonPath("id").value(expectedDatas.first().id))
+//                .andExpect(jsonPath("name").value(expectedDatas.first().name))
                 .andReturn()
     }
 
