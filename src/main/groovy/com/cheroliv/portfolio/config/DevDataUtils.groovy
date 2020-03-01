@@ -5,13 +5,16 @@ import com.cheroliv.portfolio.domain.Portfolio
 import com.cheroliv.portfolio.entity.PortfolioEntity
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
+import org.apache.commons.lang3.StringUtils
 
 import java.time.LocalDateTime
+
+import static com.cheroliv.portfolio.config.ApplicationConstants.ZERO_CHAR
 
 @Slf4j
 @Singleton
 @CompileStatic
-class DevData {
+class DevDataUtils {
 
     public static final List<Portfolio> EMPTY_PORTFOLIOS = []
     public static final Collection PORTFOLIO_DATA = [
@@ -50,5 +53,11 @@ class DevData {
         collectionToPortfolios(datas).collect { it ->
             PortfolioEntity.fromDto(it)
         }
+    }
+    static final String deleteZerosAtTheEndOfString(String s){
+        while(s.toCharArray().toList().last()== ZERO_CHAR){
+            s= StringUtils.chop(s)
+        }
+        s
     }
 }

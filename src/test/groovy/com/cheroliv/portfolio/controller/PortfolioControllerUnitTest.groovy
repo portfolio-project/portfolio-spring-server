@@ -15,8 +15,12 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 
+import static com.cheroliv.portfolio.config.ApplicationConstants.CLASS_FIELD_CREATED_AT
+import static com.cheroliv.portfolio.config.ApplicationConstants.CLASS_FIELD_ID
+import static com.cheroliv.portfolio.config.ApplicationConstants.CLASS_FIELD_NAME
+import static com.cheroliv.portfolio.config.ApplicationConstants.CLASS_FIELD_UPDATED_AT
 import static com.cheroliv.portfolio.config.ApplicationConstants.PORTFOLIO_BASE_URL_REST_API
-import static com.cheroliv.portfolio.config.DevData.*
+import static com.cheroliv.portfolio.config.DevDataUtils.*
 import static org.hamcrest.Matchers.is
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize
 import static org.mockito.BDDMockito.given
@@ -63,29 +67,57 @@ class PortfolioControllerUnitTest {
                 .andReturn()
     }
 
+
     @Test
     @Order(3)
     @DisplayName("test_get_portfolios_with_datas")
     void test_get_portfolios_with_datas() {
 
-        List<Portfolio> expectedDatas = collectionToPortfolios(PORTFOLIO_DATA).reverse()
+        List<Portfolio> expectedDatas =
+                collectionToPortfolios(PORTFOLIO_DATA).reverse()
 
         given(portfolioService.getAll())
                 .willReturn(expectedDatas)
 
-        mockMvc.perform(
-                get(PORTFOLIO_BASE_URL_REST_API))
+
+        mockMvc.perform(get(PORTFOLIO_BASE_URL_REST_API))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath('$', hasSize(3)))
-                .andExpect(jsonPath('$[0]id',
+
+                .andExpect(jsonPath("\$", hasSize(3)))
+
+                .andExpect(jsonPath("\$[0]$CLASS_FIELD_ID",
                         is(expectedDatas.first().id.toString())))
-                .andExpect(jsonPath('$[0]name',
+                .andExpect(jsonPath("\$[0]$CLASS_FIELD_NAME",
                         is(expectedDatas.first().name)))
-                .andExpect(jsonPath('$[0]createdAt',
-                        is(expectedDatas.first().createdAt.toString())))
-                .andExpect(jsonPath('$[0]updatedAt',
-                        is(expectedDatas.first().updatedAt.toString())))
+                .andExpect(jsonPath("\$[0]$CLASS_FIELD_CREATED_AT",
+                        is(deleteZerosAtTheEndOfString(expectedDatas
+                                .first()
+                                .createdAt.toString()))))
+                .andExpect(jsonPath("\$[0]$CLASS_FIELD_UPDATED_AT",
+                        is(deleteZerosAtTheEndOfString(expectedDatas
+                                .first()
+                                .updatedAt.toString()))))
+
+                .andExpect(jsonPath("\$[1]$CLASS_FIELD_ID",
+                        is(expectedDatas[1].id.toString())))
+                .andExpect(jsonPath("\$[1]$CLASS_FIELD_NAME",
+                        is(expectedDatas[1].name)))
+                .andExpect(jsonPath("\$[1]$CLASS_FIELD_CREATED_AT",
+                        is(deleteZerosAtTheEndOfString(expectedDatas[1]
+                                .createdAt.toString()))))
+                .andExpect(jsonPath("\$[1]$CLASS_FIELD_UPDATED_AT",
+                        is(deleteZerosAtTheEndOfString(expectedDatas[1]
+                                .updatedAt.toString()))))
+
+                .andExpect(jsonPath("\$[2]$CLASS_FIELD_ID",
+                        is(expectedDatas[2].id.toString())))
+                .andExpect(jsonPath("\$[2]$CLASS_FIELD_NAME",
+                        is(expectedDatas[2].name)))
+                .andExpect(jsonPath("\$[2]$CLASS_FIELD_CREATED_AT",
+                        is(expectedDatas[2].createdAt.toString())))
+                .andExpect(jsonPath("\$[2]$CLASS_FIELD_UPDATED_AT",
+                        is(expectedDatas[2].updatedAt.toString())))
+
                 .andReturn()
     }
-
 }

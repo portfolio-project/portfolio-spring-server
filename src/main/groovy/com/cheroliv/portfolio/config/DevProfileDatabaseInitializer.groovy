@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional
 
 import javax.annotation.PostConstruct
 
-import static com.cheroliv.portfolio.config.DevData.PORTFOLIO_DATA
-import static com.cheroliv.portfolio.config.DevData.collectionToPortfolioEntities
+import static DevDataUtils.PORTFOLIO_DATA
+import static DevDataUtils.collectionToPortfolioEntities
 
 @Slf4j
 @Component

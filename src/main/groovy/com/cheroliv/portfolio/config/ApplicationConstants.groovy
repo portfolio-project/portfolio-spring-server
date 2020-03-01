@@ -2,6 +2,11 @@ package com.cheroliv.portfolio.config
 
 final class ApplicationConstants {
     /**
+     * Misc
+     */
+    public static final String ZERO_CHAR = '0'
+
+    /**
      * Controller
      */
     public static final String PORTFOLIO_BASE_URL_REST_API = '/api/portfolios'
@@ -10,6 +15,9 @@ final class ApplicationConstants {
      * Class fields names
      */
     public static final String CLASS_FIELD_UPDATED_AT = "updatedAt"
+    public static final String CLASS_FIELD_ID = "id"
+    public static final String CLASS_FIELD_CREATED_AT = "createdAt"
+    public static final String CLASS_FIELD_NAME = "name"
     /**
      * CORS
      */
