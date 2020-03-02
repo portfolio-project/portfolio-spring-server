@@ -5,15 +5,14 @@ import com.cheroliv.portfolio.repository.PortfolioRepository
 import com.cheroliv.portfolio.service.PortfolioService
 import groovy.transform.TypeChecked
 import groovy.util.logging.Slf4j
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-
 @Slf4j
-@Service
+@Component
 @TypeChecked
 @Transactional(readOnly = true)
-class PortfolioServiceImpl implements PortfolioService{
+class PortfolioServiceImpl implements PortfolioService {
 
     final PortfolioRepository portfolioRepository
 
@@ -24,5 +23,11 @@ class PortfolioServiceImpl implements PortfolioService{
     @Override
     List<Portfolio> getAll() {
         portfolioRepository.findAll()
+    }
+
+    @Override
+    Portfolio save(Portfolio portfolio) {
+        log.info("Portfolio save(@Valid Portfolio portfolio) throws ConstraintViolationException")
+        portfolioRepository.save(portfolio)
     }
 }

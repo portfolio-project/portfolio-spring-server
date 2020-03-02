@@ -31,7 +31,7 @@ final class ApplicationConstants {
     /**
      * BeanValidation
      */
-    static final String NAME_NOTNULL_CSTRT_TPL_MSG = '{com.cheroliv.portfolio.domain.nd.notnull.message}'
-    static final String NAME_SIZE_CSTRT_TPL_MSG = '{com.cheroliv.portfolio.domain.nd.size.message}'
+    static final String NAME_NOTNULL_CSTRT_TPL_MSG = '{com.cheroliv.portfolio.domain.name.notnull.message}'
+    static final String NAME_SIZE_CSTRT_TPL_MSG = '{com.cheroliv.portfolio.domain.name.size.message}'
 
 }

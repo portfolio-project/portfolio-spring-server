@@ -16,6 +16,10 @@ import static com.cheroliv.portfolio.config.ApplicationConstants.ZERO_CHAR
 @CompileStatic
 class DevDataUtils {
 
+
+    static final Portfolio unsavedPortfolio = new Portfolio(
+            name: 'new portfolio')
+
     public static final List<Portfolio> EMPTY_PORTFOLIOS = []
     public static final Collection PORTFOLIO_DATA = [
             [
@@ -54,9 +58,10 @@ class DevDataUtils {
             PortfolioEntity.fromDto(it)
         }
     }
-    static final String deleteZerosAtTheEndOfString(String s){
-        while(s.toCharArray().toList().last()== ZERO_CHAR){
-            s= StringUtils.chop(s)
+
+    static final String deleteZerosAtTheEndOfString(String s) {
+        while (s.toCharArray().toList().last() == ZERO_CHAR) {
+            s = StringUtils.chop(s)
         }
         s
     }
