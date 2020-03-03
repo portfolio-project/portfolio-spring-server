@@ -1,13 +1,13 @@
 package com.cheroliv.portfolio.config
 
-
 import com.cheroliv.portfolio.domain.Portfolio
 import com.cheroliv.portfolio.entity.PortfolioEntity
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.commons.lang3.StringUtils
 
-import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 import static com.cheroliv.portfolio.config.ApplicationConstants.ZERO_CHAR
 
@@ -25,20 +25,20 @@ class DevDataUtils {
             [
                     id       : UUID.randomUUID(),
                     name     : "name1",
-                    createdAt: LocalDateTime.now().minusDays(6),
-                    updatedAt: LocalDateTime.now().minusDays(5)
+                    createdAt: ZonedDateTime.now(ZoneId.systemDefault()).minusDays(6),
+                    updatedAt: ZonedDateTime.now().minusDays(5)
             ],
             [
                     id       : UUID.randomUUID(),
                     name     : "name2",
-                    createdAt: LocalDateTime.now().minusDays(4),
-                    updatedAt: LocalDateTime.now().minusDays(3)
+                    createdAt: ZonedDateTime.now().minusDays(4),
+                    updatedAt: ZonedDateTime.now().minusDays(3)
             ],
             [
                     id       : UUID.randomUUID(),
                     name     : "name3",
-                    createdAt: LocalDateTime.now().minusDays(2),
-                    updatedAt: LocalDateTime.now().minusDays(1)
+                    createdAt: ZonedDateTime.now().minusDays(2),
+                    updatedAt: ZonedDateTime.now().minusDays(1)
             ]
     ]
     public static final String JSON_EMPTY_RESULT = "[]"
@@ -48,13 +48,13 @@ class DevDataUtils {
             new Portfolio(
                     id: map.getAt('id') as UUID,
                     name: map.getAt('name') as String,
-                    createdAt: map.getAt('createdAt') as LocalDateTime,
-                    updatedAt: map.getAt('updatedAt') as LocalDateTime)
+                    createdAt: map['createdAt'] as ZonedDateTime,
+                    updatedAt: map['updatedAt'] as ZonedDateTime)
         }
     }
 
-    static final List<PortfolioEntity> collectionToPortfolioEntities(Collection datas) {
-        collectionToPortfolios(datas).collect { it ->
+    static final List<PortfolioEntity> collectionToPortfolioEntities(Collection<Portfolio> datas) {
+        collectionToPortfolios(datas).collect { Portfolio it ->
             PortfolioEntity.fromDto(it)
         }
     }

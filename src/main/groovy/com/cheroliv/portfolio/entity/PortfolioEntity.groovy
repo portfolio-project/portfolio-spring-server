@@ -10,6 +10,7 @@ import javax.persistence.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 import static com.cheroliv.portfolio.config.ApplicationConstants.NAME_NOTNULL_CSTRT_TPL_MSG
 import static com.cheroliv.portfolio.config.ApplicationConstants.NAME_SIZE_CSTRT_TPL_MSG
@@ -38,12 +39,12 @@ class PortfolioEntity implements PortfolioEntityGeneric<UUID> {
     String name
 
     @NotNull
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP")
-    LocalDateTime createdAt
+    @Column(name = "created_at"/*,columnDefinition = "TIMESTAMP"*/)
+    ZonedDateTime createdAt
 
     @NotNull
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
-    LocalDateTime updatedAt
+    @Column(name = "updated_at"/*,columnDefinition = "TIMESTAMP"*/)
+    ZonedDateTime updatedAt
 
 
     Portfolio toDto() {

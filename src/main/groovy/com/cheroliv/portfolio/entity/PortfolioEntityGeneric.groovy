@@ -1,5 +1,7 @@
 package com.cheroliv.portfolio.entity
 
+import java.time.ZonedDateTime
+
 interface PortfolioEntityGeneric<ID> {
 
     ID getId()
@@ -9,4 +11,12 @@ interface PortfolioEntityGeneric<ID> {
     String getName()
 
     void setName(String name)
+
+    ZonedDateTime getCreatedAt()
+
+    void setCreatedAt(ZonedDateTime createdAt)
+
+    ZonedDateTime getUpdatedAt()
+
+    void setUpdatedAt(ZonedDateTime UpdatedAt)
 }

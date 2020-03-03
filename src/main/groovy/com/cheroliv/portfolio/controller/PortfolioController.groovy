@@ -1,6 +1,5 @@
 package com.cheroliv.portfolio.controller
 
-
 import com.cheroliv.portfolio.domain.Portfolio
 import com.cheroliv.portfolio.service.PortfolioService
 import groovy.transform.TypeChecked
@@ -11,9 +10,10 @@ import org.springframework.web.bind.annotation.*
 
 import java.nio.charset.StandardCharsets
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
-import static com.cheroliv.portfolio.config.ApplicationConstants.PORTFOLIO_BASE_URL_REST_API
+import static com.cheroliv.portfolio.config.ApplicationConstants.*
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 
 @Slf4j
@@ -22,7 +22,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 @RequestMapping(value = PORTFOLIO_BASE_URL_REST_API,
         produces = [APPLICATION_JSON_VALUE])
 class PortfolioController {
-
     final PortfolioService portfolioService
 
     PortfolioController(PortfolioService portfolioService) {
@@ -67,29 +66,42 @@ class PortfolioController {
 //                .body(portfolio)
 //    }
 
-    Portfolio createPortfolio(Portfolio portfolio) {
+    Portfolio createPortfolioFake(Portfolio portfolio) {
         new Portfolio(
                 id: UUID.randomUUID(),
                 name: portfolio.name,
-                createdAt: LocalDateTime.now(),
-                updatedAt: LocalDateTime.now())
+                createdAt: ZonedDateTime.now(),
+                updatedAt: ZonedDateTime.now())
+    }
+
+    private Portfolio createPortfolio(Portfolio portfolio, HttpHeaders headers) {
+        portfolio.id = UUID.randomUUID()
+        portfolio.createdAt = ZonedDateTime.now(
+                ZoneId.of(headers.get(HTTP_HEADER_THE_TIMEZONE_IANA).first()))
+        portfolio.updatedAt = ZonedDateTime.now(
+                ZoneId.of(headers.get(HTTP_HEADER_THE_TIMEZONE_IANA).first()))
+        portfolioService.save(portfolio)
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    ResponseEntity<Portfolio> save(@RequestBody Portfolio portfolio) {
-        portfolio = createPortfolio(portfolio)
+    ResponseEntity<Portfolio> save(
+            @RequestBody Portfolio portfolio,
+            @RequestHeader HttpHeaders headers) {
+
+        portfolioService.save( createPortfolio(portfolio, headers))
+
         String uri = "${PORTFOLIO_BASE_URL_REST_API}/${portfolio.id}"
+
         ResponseEntity
                 .created(new URI(uri))
                 .headers(createEntityCreationAlert(
-                        'springPortfolio',
+                        Portfolio.class.simpleName,
                         true,
                         ENTITY_NAME,
                         portfolio.id.toString()))
                 .body(portfolio)
     }
 
-    private static final String ENTITY_NAME = "portfolio";
 
     static HttpHeaders createEntityCreationAlert(
             String applicationName,

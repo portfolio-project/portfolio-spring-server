@@ -1,10 +1,16 @@
 package com.cheroliv.portfolio.config
 
+import com.cheroliv.portfolio.domain.Portfolio
+
 final class ApplicationConstants {
     /**
      * Misc
      */
     public static final String ZERO_CHAR = '0'
+    public static final String HTTP_HEADER_THE_TIMEZONE_IANA = 'The-Timezone-IANA'
+    public static final String HTTP_HEADER_OFFSET = "offset"
+    public static final String ENTITY_NAME = Portfolio.class.simpleName.toLowerCase()
+
 
     /**
      * Controller
